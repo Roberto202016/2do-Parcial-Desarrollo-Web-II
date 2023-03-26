@@ -1,7 +1,9 @@
 import { createContext, useReducer, useState } from "react";
+import { EmployeeCard } from "./components/Card/Card";
 import { EmployeeData } from "./imports/Employee";
-
-
+import { EmployeeForm } from "./components/Form/Form";
+import { useButtonValidation } from "./hooks/useButtonValidation";
+import { useFormValidation } from "./hooks/useFormValidation";
 import "./App.css";
 
 interface State {
@@ -60,7 +62,66 @@ const reducer = (state: State, action: Action): State => {
 };
 
 const App = () => {
- 
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { isBlocked, values, originalValues } = state;
+
+  const formErrors = useFormValidation(values);
+  const buttonStates = useButtonValidation(isBlocked, values);
+
+  const handleChange2 = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    dispatch({ type: "UPDATE", payload: { [name]: value } });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    dispatch({ type: "UPDATE", payload: { [name]: value } });
+  };
+
+  return (
+    <AppContext.Provider value={{ state, dispatch }}>
+      <div className="background">
+        <div className="titulo">Employee Card</div>
+        <h2 className={isBlocked ? "aviso blocked" : "aviso"}>
+          {isBlocked ? "BLOCKED - THE CARD CANT BE MODIFIED" : "UNBLOCKED"}
+        </h2>
+        <h1 className="verificacion">
+          {!values.name ||
+          !values.email ||
+          !values.phone ||
+          !values.picture ||
+          !values.birthdate
+            ? "Faltan datos"
+            : null}
+        </h1>
+        <EmployeeCard values={values} isBlocked={isBlocked} originalValues={originalValues}  />
+        <EmployeeForm
+          handleChange={handleChange}
+          handleChange2 = {handleChange2}
+          validate={() => true}
+          values={values}
+          errors={formErrors}
+          isBlocked={isBlocked}
+        />
+        <button
+          className="block"
+          onClick={() => dispatch({ type: "BLOCK" })}
+          disabled={buttonStates.isBlockButtonDisabled}
+        >
+          block
+        </button>
+        <button
+  className="unblock"
+  onClick={() =>
+    dispatch({ type: "UNBLOCK", payload: state.originalValues && state.values })
+  }
+  disabled={buttonStates.isUnlockButtonDisabled}
+>
+  Unlock
+</button>
+      </div>
+    </AppContext.Provider>
+  );
 };
 
 export default App;
