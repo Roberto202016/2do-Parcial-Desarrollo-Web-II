@@ -1,0 +1,88 @@
+*{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.form-container {
+  float: left;
+  width: 60%;
+  
+}
+
+.card-container {
+  float: right;
+  width: 40%;
+}
+
+@media only screen and (max-width: 768px) {
+  /* establecer el ancho completo en dispositivos móviles */
+  .form-container,
+  .card-container {
+    width: 100%;
+    float: none;
+  }
+}
+
+button {
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+div.titulo {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+button.block {
+  background-color: red;
+  
+}
+
+h1.verificacion{
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-size: small;
+  font-weight: 700;
+  background-color: #f2ff00;
+}
+h2.aviso {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  /* Color para cuando isBlocked es true */
+  color: red;
+}
+
+h2.aviso:not(.blocked) {
+  /* Color para cuando isBlocked es false */
+  color: rgb(0, 0, 0);
+}
+
+button.unblock {
+  background-color: blue;
+}
+
+button.block:hover,
+button.unblock:hover {
+  opacity: 0.8;
+}
+
+button:focus {
+  outline: none;
+}
+.alerta {
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.title-Form{
+  text-align: center;
+}
